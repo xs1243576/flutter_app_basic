@@ -1,0 +1,1057 @@
+
+http://findsrc.com/flutter-source
+
+flutter执行命令提示锁住的解决方案
+
+不管是windows或者macos下都是可以通过杀进程的方式来解锁，具体代码如下：
+windows下可以使用：
+taskkill /F /IM dart.exe
+macos下使用：
+killall -9 dart
+
+
+dart支持条件删除列表中的值，参考以下代码实现：
+//通过闭包设置删除条件
+list.removeWhere((item) => item.id == '001')
+
+
+自定义任何组件都是一样的，如果系统有类似的，直接看源代码是如何实现的，然后按照它的模版自定义组件。
+
+
+_TransitionsHomePage  类的名字一般不用下划线
+
+//list为列表对象
+list.sort((a, b) => a.someProperty.compareTo(b.someProperty));
+
+取消键盘显示
+FocusScope.of(context).unfocus(); //取消焦点
+
+下面是SafeArea使用的例子：
+Align(
+  alignment: Alignment.topLeft,
+  child: SafeArea( //安全区域内的组件不会被遮挡
+    child: Text('My Widget: ...'),
+  ),
+)
+
+tabbar conntroller
+_pageController.animateToPage(3,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease);
+
+
+获取PageView显示的index，赋值给currentIndex
+child: PageView.builder(
+          itemBuilder: (ctx, index) => pagesOne[index],
+          itemCount: pagesOne.length,
+          controller: _pageController,
+//          physics: NeverScrollableScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
+          onPageChanged: (index) {
+            setState(() {
+//              _selectedIndex = index;
+              currentIndex = index > 1 ? index + 1 : index;
+// 通过controller.page.round();获取PageView显示的index，赋值给currentIndex
+//              currentIndex = _pageController.page.round();
+            });
+          },
+        ),
+
+
+Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new DetailScreen(todo: todos[index]),
+          ),
+        );
+
+
+Icons.add是系统提供的图标，创建Flutter项目的时候，pubspec.yaml中默认有如下配置：
+  uses-material-design: true
+
+
+
+在 Flutter 中一切皆是 组件，仅仅 Widget 的子类和间接子类就有 350 多个，整理的 Flutter组件继承关系图 可以帮助大家更好的理解学习 Flutter，回归正题，如此多的组件到底如果学习，真的需要学习 350 多个组件？
+在经济学中有一个著名的 二八定律
+二八定律是意大利经济学家帕累托发现的。帕累托认为任何一组东西中最重要的只占其中一小部分约占20%，其余80%尽管是多数，却是次要的。
+而我们学习 Flutter 也适用于二八定律，大部分组件是平时很少用到的，因此作为初学者，只需学习那 20% 常用的组件即可，常用的组件及案例地址：http://laomengit.com/guide/introduction/mobile_system.html
+除了常用组件外，还总结了300多个其余组件到详细用法，这些组件可以作为手册，用到的时候在查阅即可，地址：http://laomengit.com/flutter/widgets/widgets_structure.html
+
+
+Material vs Cupertino
+Flutter 中包含两套风格的组件，分别是 Material 和 Cupertino ，Cupertino 是 iOS风格的组件，命名都带 Cupertino 前缀，
+比如 CupertinoSlider 、 CupertinoDatePicker 等， Material Design 是由 Google 推出，旨在为手机、平板电脑、台式机和“其他平台”提供更一致、更广泛的“外观和感觉”。
+
+Flutter 使用一套代码在不同的平台上表现一致，它不会根据不同的平台绘制不同的外形，比如使用 AlertDialog 弹出警告框，不管在 Android 上，还是在 iOS上效果是一样。
+但有一些功能 Flutter 区分平台，比如 ListView 滑动到底部时继续滑动，Android 底部会出现淡蓝色（默认情况下）拱形，而 iOS 上则没有，
+这是因为 Flutter 在封装此组件时在代码中区分了平台，所以在查看 Flutter 源码到过程中会经常看到根据不同的平台做不同处理的情况。
+
+
+//            Dialog
+//            如果你觉得这还是不够个性，那可以祭出终极大招了，直接使用Dialog，Dialog可以定制任何对话框，只需将对话框的内容给child属性：
+//                Dialog(
+//                child: MyDialog(),
+//          );
+
+
+
+三个权重组建总结如下：
+Spacer 是通过 Expanded 实现的，Expanded继承自Flexible。
+填满剩余空间直接使用Expanded更方便。
+Spacer 用于撑开 Row、Column、Flex 的子组件的空隙。
+
+
+Spacer 也是一个权重组件，源代码如下：
+@override
+Widget build(BuildContext context) {
+  return Expanded(
+    flex: flex,
+    child: const SizedBox.shrink(),
+  );
+}
+
+
+工具
+rxdart
+^0.22.6
+https://pub.dev/packages/rxdart
+函数式编程,RxDart是基于ReactiveX的Google Dart的反应式功能编程库。
+rx_widgets
+^2.5.0
+https://pub.dev/packages/rx_widgets
+rx_widgets是一个包含基于流的Flutter Widgets和Widget帮助程序/便利类的程序包，它们有助于反应式编程风格，特别是与RxDart和RxCommands结合使用。
+rx_command
+^4.3.2+1
+https://pub.dev/packages/rx_command
+RxCommand是针对事件处理程序的基于Reactive Extensions（Rx）的抽象。它基于ReactiveUI框架的ReactiveCommand。它大量使用了RxDart包。
+
+
+
+状态栏不占位
+那么状态栏的全透明沉浸呢
+在main.dart 的runapp后面加上
+SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+
+
+dart中链接匹配正则表达式
+((?:(?:https?|ftp):\\/\\/)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])
+(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|
+(?:(?:[a-zA-Z0-9\\u00a1-\\uffff]+-?)*[a-zA-Z0-9\\u00a1-\\uffff]+)
+(?:\\.(?:[a-zA-Z0-9\\u00a1-\\uffff]+-?)*[a-zA-Z0-9\\u00a1-\\uffff]+)*(?:\\.(?:[a-zA-Z\\u00a1-\\uffff]{2,})))|localhost)
+(?::\\d{2,5})?(?:\\/(?:(?!\\1|\\s)[\\S\\s])*)?[^\\s'\\\"]*)
+记得去掉换行。
+
+
+在使用dart的集合的时候需要经常使用到if for spread operator，从而使得集合使用更加灵活。比如：
+List<String> list=[
+    if(condition1) "str1",
+    if(condition2) "str2",
+    "str3"
+];
+
+
+Flutter有以下三个渠道（channel），顺序按照稳定性依次增加：
+master
+  当前代码树的顶端，最新的版本。一般有很多新功能，但是不保证以后会不会砍掉。
+dev
+  以前叫alpha，是最新的完全测试过的版本。也包含了新功能，但是也会有一些"bad" dev builds，可以查看 Bad Builds 列表。
+beta
+  每隔几周都会选取近几个月中最好的一个dev版本，当作beta版，这个版本是通过了Google的codelabs 测试的。
+虽然Flutter也有一个release版本，选取的是近一年中最好的beta版本，但是依然没有达到完全满意、可以全面使用的程度。
+如何切换渠道
+你可以通过下面这个命令查看你所在的渠道：
+$ flutter channel
+Flutter channels:
+* beta
+  dev
+  master
+如果要切换渠道，可以使用命令：flutter channel [<channel-name>]，然后再运行命令flutter upgrade保证你处于最新的版本。
+
+
+
+flutter中如何移除所有路由返回首个页面
+flutter中页面路由如果想全部移除返回第一个页面可以使用以下方式，示例代码如下：
+Navigator.of(context)
+    .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+大概解释上面这段代码，这段代码是移除所有的路由直到名称为/login的页面，根据自己的实际情况你可以调整为/或者其他名称。也可以使用下面这种方式，示例代码如下：
+
+ Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+    LoginScreen()), (Route<dynamic> route) => false),
+这段代码其实类似，第一个是通过名称比较，而后面这个是通过对象比较的方式来达到相同的目的。
+
+
+
+判断当前手机的操作系统
+flutter中可以通过Platform组件获取手机的操作系统，示例代码如下：
+import 'dart:io' show Platform;
+if (Platform.isAndroid) {
+  // Android-specific code
+} else if (Platform.isIOS) {
+  // iOS-specific code
+}
+//操作系统枚举包含：
+Platform.isAndroid
+Platform.isFuchsia
+Platform.isIOS
+Platform.isLinux
+Platform.isMacOS
+Platform.isWindows
+或者使用以下代码判断操作系统：
+import 'package:flutter/foundation.dart' show TargetPlatform;//...
+if(Theme.of(context).platform == TargetPlatform.android) {
+    //安卓
+} else if(Theme.of(context).platform == TargetPlatform.iOS) {
+    //ios
+} else if(Theme.of(context).platform == TargetPlatform.fuchsia) {
+    //fuchsia
+}
+
+
+使用十六进制RGB的方式设置颜色
+const color=Color(0xffee0000);
+//或者
+const color=Color(0xFFEE0000);
+//0x表明是16进制数字
+//0x后两位ff表示透明度
+//ee0000就是16进制的RGB
+
+
+flutter中textfield字段是可以支持多行文本输入的，代码如下：
+new TextField(
+  keyboardType: TextInputType.multiline,
+  maxLines: whatever, //不限制行数
+  //maxLines:5, 限制5行
+  //maxLines:null 不限制行数
+)
+
+
+import 'dart:convert';
+String rawJson = '{"name":"Mary","age":30}';
+Map<String, dynamic> map = jsonDecode(rawJson);//反序列化
+json.decode(rawJson ) //也可以实现
+json.encode(map); //json序列化
+
+
+flutter中可以通过MediaQuery查询屏幕的高度、宽度等信息，示例代码如下：
+//全屏宽度和高度
+double width = MediaQuery.of(context).size.width;
+double height = MediaQuery.of(context).size.height;
+//扣除安全区域外的高度（扣掉刘海屏和底部按钮栏高度）
+var padding = MediaQuery.of(context).padding;
+double height1 = height - padding.top - padding.bottom;
+//扣掉状态栏高度
+double height2 = height - padding.top;
+//扣掉状态栏和工具条的高度
+double height3 = height - padding.top - kToolbarHeight;
+
+
+SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp, //只能纵向
+      DeviceOrientation.portraitDown,//只能纵向
+    ]);
+//    如果该方法在ios下不起作用话，可以在xcode中设置，或者修改info.plist
+//    <array>
+//    <string>UIInterfaceOrientationPortrait</string>
+//    </array>
+
+
+在构建ui的时候我们需要根据条件构建空组件，空组件不占空间、无需背景，具体构建方式参考以下代码示例：
+Widget build(BuildContext context) {
+  return SizedBox.shrink();
+}
+SizedBox.shrink()产生的空组件没有背景、没有装饰、大小为0，并且不影响父组件的约束。
+
+
+flutter中如何解决 “No Material widget found” 错误？
+出现这个错误是因为你用到的组件要求祖先组件必须包含Material，比如：Card,Dialog,Drawer,Scaffold，这个时候你只需要通过前面那些Material组件包装下你自己的组件就可以了，具体实现参考以下示例代码：
+
+
+flutter中将毫秒时间戳转为日期对象的示例代码如下：
+//timestamp 为毫秒时间戳
+var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp);
+//unix_timestamp 为unix timestamp
+var date1 = new DateTime.fromMicrosecondsSinceEpoch(unix_timestamp*1000);
+
+
+
+
+Container(
+  color: Colors.red.withOpacity(.3),
+  child: Image.asset(
+    'assets/images/aa.jpg',
+    width: 150,
+    height: 150,
+    colorBlendMode: BlendMode.srcOut, //  具体见notes
+    alignment: Alignment.centerLeft,
+  ),
+),
+color和colorBlendMode用于将颜色和图片进行颜色混合，colorBlendMode表示混合模式，下面介绍的混合模式比较多，浏览一遍即可，此属性可以用于简单的滤镜效果。
+
+clear：清楚源图像和目标图像。
+color：获取源图像的色相和饱和度以及目标图像的光度。
+colorBurn：将目标的倒数除以源，然后将结果倒数。
+colorDodge：将目标除以源的倒数。
+darken：通过从每个颜色通道中选择最小值来合成源图像和目标图像。
+difference：从每个通道的较大值中减去较小的值。合成黑色没有效果。合成白色会使另一张图像的颜色反转。
+dst：仅绘制目标图像。
+dstATop：将目标图像合成到源图像上，但仅在与源图像重叠的位置合成。
+dstIn：显示目标图像，但仅显示两个图像重叠的位置。不渲染源图像，仅将其视为蒙版。源的颜色通道将被忽略，只有不透明度才起作用。
+dstOut：显示目标图像，但仅显示两个图像不重叠的位置。不渲染源图像，仅将其视为蒙版。源的颜色通道将被忽略，只有不透明度才起作用。
+dstOver：将源图像合成到目标图像下。
+exclusion：从两个图像的总和中减去两个图像的乘积的两倍。
+hardLight：调整源图像和目标图像的成分以使其适合源图像之后，将它们相乘。
+hue：获取源图像的色相，以及目标图像的饱和度和光度。
+lighten：通过从每个颜色通道中选择最大值来合成源图像和目标图像。
+luminosity：获取源图像的亮度，以及目标图像的色相和饱和度。
+modulate：将源图像和目标图像的颜色分量相乘。
+multiply：将源图像和目标图像的分量相乘，包括alpha通道。
+overlay：调整源图像和目标图像的分量以使其适合目标后，将它们相乘。
+plus：对源图像和目标图像的组成部分求和。
+saturation：获取源图像的饱和度以及目标图像的色相和亮度。
+screen：将源图像和目标图像的分量的逆值相乘，然后对结果求逆。
+softLight：对于低于0.5的源值使用colorDodge，对于高于0.5的源值使用colorBurn。
+src：放置目标图像，仅绘制源图像。
+srcATop：将源图像合成到目标图像上，但仅在与目标图像重叠的位置合成。
+srcIn：显示源图像，但仅显示两个图像重叠的位置。目标图像未渲染，仅被视为蒙版。目标的颜色通道将被忽略，只有不透明度才起作用。
+srcOut：显示源图像，但仅显示两个图像不重叠的位置。
+srcOver：将源图像合成到目标图像上。
+xor：将按位异或运算符应用于源图像和目标图像。
+
+
+
+
+
+flutter构造函数后的冒号的作用是初始化，注意以下几点：
+1）不同于构造函数内部，这里不能使用this；
+2）这里的初始化可以是多个语句，多个语句之间使用逗号,分隔；
+3）这里可以调用父类构造函数,super();
+4）这里是为final字段赋值;
+5）可以使用assert检查参数
+示例代码如下：
+final String x;
+final String y;
+Point.fromJson(Map<String, num> json) : x = json['x'], y = json['y'] {
+    print('In Point.fromJson(): ($x, $y)');
+}
+
+
+flutter中async和async*的差别
+flutter函数中使用async,async*使得函数异步执行，两者的差别在于。async*返回Stream，并通过yield关键字生成Stream流的值，示例代码如下：
+Stream<int> countForOneMinute() async* {
+  for (int i = 1; i <= 60; i++) {
+    await Future.delayed(const Duration(seconds: 1));//延迟一秒
+    yield i;//生成Stream的一个值
+  }
+}
+调用代码如下：
+main() async {
+  await for (int i in countForOneMinute()) {
+    print(i); // 每间隔一秒，从1打印到60
+  }
+}
+对于async就要简单很多，参考以下代码：
+Future<int> doSomeLongTask() async { //异步函数
+  await Future.delayed(const Duration(seconds: 1));
+  return 42;
+}
+main() async {
+  int result = await doSomeLongTask();//异步调用
+  print(result); // 一秒后打印42
+}
+
+
+flutter中如何为TextField控件设置一个初始值？
+    _controller = new TextEditingController(text: '初始值');
+
+
+intl
+Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
+ var f = NumberFormat('###.0#', 'en_US');
+  print(f.format(12.345));
+    ==> 12.34
+var format = DateFormat.yMd('ar');
+var dateString = format.format(DateTime.now());
+
+
+flutter中格式化日期的方式跟java groovy极其类似，示例代码如下
+import 'package:intl/intl.dart';
+DateTime now = DateTime.now();//获取当前时间
+String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);//格式化日期
+//同理，字符串转日期的方法如下
+DateTime dateTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse("2019-07-19 08:40:23");
+
+
+
+flutter中Flexiable和Expanded的区别
+Expanded是Flexiable控件特定属性的一个便捷写法，参考下面的代码：
+Expanded(
+  child: Foo(),
+);
+Flexible(
+  fit: FlexFit.tight,
+  child: Foo(),
+);
+上面两段代码是等效的。
+Flexiable的fit除了FlexFit.tight（此时等效于Expanded），还可以是FlexFit.loose。两者的差别：
+tight - 会尽可能的占用空间；
+loose - 则按照子控件的自身尺寸的需要
+
+
+
+flutter中日期的比较比较方便，可以通过difference方法来实现，示例代码如下：
+ //出生日期
+ final birthday = DateTime(1988, 10, 12);
+ //当前日期
+ final date2 = DateTime.now();
+ //比较相差的天数
+ final difference = date2.difference(birthday).inDays;
+
+
+flutter中mainAxisAligment和crossAxisAlignment的差别
+从字面意思理解：
+mainAxisAligment - 指的是主坐标方向的对齐
+crossAxisAlignment - 指的是垂直坐标方向的对齐
+如果是Row，主方向就是横向，垂直向就是纵向
+如果是Column，主方向就是纵向，垂直向就是横向
+
+
+为TextField控件设置文本内容后，焦点自动跑到文本的开头，让焦点在文本末尾可以参考以下示例代码：
+_controller.text = "Hello"; //设置文本值
+//改变焦点位置
+_controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
+
+
+flutter中如何在控件build完成后调用方法？
+可以在控件的初始化方法中增加一个回调函数，示例代码如下：
+void initState() {
+    super.initState();
+    //注册一个回调函数yourCallback
+    WidgetsBinding.instance.addPostFrameCallback((_) => yourCallback(context));
+}
+
+
+SchedulerBinding.instance.addPostFrameCallback((_) { //build完成后的回调
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,//滚动到底部
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          });
+
+
+flutter ScrollController如何滚动到底部？
+class MyHomePage extends StatefulWidget {
+  State createState() => new MyHomePageState();}class MyHomePageState extends State<MyHomePage> {
+  ScrollController _scrollController = new ScrollController();
+
+  List<Widget> _items = new List.generate(40, (index) {
+    return new Text("item $index");
+  });
+
+  @override  Widget build(BuildContext context) {
+    return new Scaffold(
+      floatingActionButton: new FloatingActionButton(
+        child: new Icon(Icons.arrow_downward),
+        onPressed: () {
+          setState(() {
+            _items.add(new Text("item ${_items.length}"));
+          });
+          SchedulerBinding.instance.addPostFrameCallback((_) { //build完成后的回调
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,//滚动到底部
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          });
+        },
+      ),
+      body: new CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          new SliverAppBar(
+            title: new Text('Sliver App Bar'),
+          ),
+          new SliverList(
+            delegate: new SliverChildBuilderDelegate(
+              (context, index) => _items[index],
+              childCount: _items.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }}
+还有另外一种实现方式，思路就是使用反向ListView。这样滚动到0,0位置的时候，由于是反向就是到了底部（这个也是类似聊天窗口常用的反向ListView），参考以下代码：
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();}class _MyHomePageState extends State<MyHomePage> {
+  List<Widget> _messages = <Widget>[new Text('hello'), new Text('world')];
+  ScrollController _scrollController = new ScrollController();
+
+  @override  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Center(
+        child: new Container(
+          decoration: new BoxDecoration(backgroundColor: Colors.blueGrey.shade100),
+          width: 100.0,
+          height: 100.0,
+          child: new Column(
+            children: [
+              new Flexible(
+                child: new ListView(
+                  controller: _scrollController,
+                  reverse: true, //注意设置为反向
+                  shrinkWrap: true,
+                  children: new UnmodifiableListView(_messages),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        child: new Icon(Icons.add),
+        onPressed: () {
+          setState(() {
+            _messages.insert(0, new Text("message ${_messages.length}"));
+          });
+          _scrollController.animateTo(
+            0.0, //滚动到0,0就是底部（因为是反向的）
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          );
+        }
+      ),
+    );
+  }}
+
+
+
+//该属性禁止用户滚动
+physics: const NeverScrollableScrollPhysics()
+
+
+可以使用异步的方式等待弹出框关闭后执行，示例代码如下：
+showDialog(
+    //弹出框代码省略
+).then((val){
+    Navigator.pop(_context);
+});
+
+
+插件介绍
+url_launcher 插件是支持在app中打开外部链接用的。链接可以是一般的http/https/ftp等链接，也可以是手机中的app链接。比如：
+微信 wechat:// 支付宝 alipay:// 等等。
+
+
+flutter中可以通过package_info插件获取应用包的相关信息，比如：应用版本号、包名等。
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  String version = packageInfo.version;//版本号
+  String buildNumber = packageInfo.buildNumber;//版本构建号
+
+
+
+全局、局部修改字体颜色
+TextTheme.apply可以做到，通过设置bobyColor和displayColor可以改变所有字体颜色，示例代码如下：
+final newTextTheme = Theme.of(context).textTheme.apply(
+  bodyColor: Colors.pink,//影响主题：headline title subhead button body1 body2
+  displayColor: Colors.pink, //影响主题：display1 display2 display3 display4 caption
+);
+也可以使用下面的代码达到局部控制的效果：
+return DefaultTextStyle(
+  style: TextStyle(color: Colors.pink),
+  child: _YOUR_WIDGETS_ //影响所有子控件
+)
+
+
+
+可以使用StatefulWidget包装下整个app
+，当你需要重启app的时候，通过重新生成key触发控件的重新build从而达到重启的效果，参考以下示例代码：
+import 'package:flutter/material.dart';
+void main() {
+  runApp(
+    RestartWidget( //使用StatefulWidget包装下
+      child: MaterialApp(),
+    ),
+  );
+}
+class RestartWidget extends StatefulWidget {
+  RestartWidget({this.child});
+
+  final Widget child;
+
+  static void restartApp(BuildContext context) {
+    //查找顶层_RestartWidgetState并重启
+    context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
+  }
+
+  @override
+  _RestartWidgetState createState() => _RestartWidgetState();
+}
+
+class _RestartWidgetState extends State<RestartWidget> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();//重新生成key导致控件重新build
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: key,
+      child: widget.child,
+    );
+  }
+}
+
+
+
+flutter中的焦点是通过FocusNode来管理的，通过该类可以实现焦点的获取和焦点的放弃，示例代码如下：
+class FormWidget extends StatelessWidget{
+   final focus = FocusNode();//焦点控制
+   @override
+   Widget build(BuildContext context) {
+    return Form(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            TextFormField(
+              textInputAction: TextInputAction.next,
+              autofocus: true,
+              decoration: InputDecoration(labelText: "输入1"),
+              onFieldSubmitted: (v){//输入提交后触发自动聚焦下个输入框
+                FocusScope.of(context).requestFocus(focus);//聚焦下个输入框
+              },
+            ),
+            TextFormField(
+              focusNode: focus,
+              decoration: InputDecoration(labelText: "输入2"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+flutter要读取assets中的文本，分以下两个步骤：
+1) 配置pubspec.yaml
+flutter:
+  assets:
+    - assets/res/my_file.txt
+或者
+flutter:
+  assets:
+    - assets/
+2) 读取文件内容
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('assets/my_text.txt');
+}
+
+
+在使用Row或者Column嵌套ListView经常会报错：RenderBox was not laid out。根本原因在于没有为ListView明确一个高度造成，参考以下示例代码解决：
+new Row(
+  children: <Widget>[
+    Expanded(
+      child: SizedBox(
+        height: 200.0,//确定一个高度
+        child: new ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: products.length,
+          itemBuilder: (BuildContext ctxt, int index) {
+            return new Text(products[index]);
+          },
+        ),
+      ),
+    ),
+    new IconButton(
+      icon: Icon(Icons.remove_circle),
+      onPressed: () {},
+    ),
+  ],
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+)
+
+
+dart列表已经提供了contains方法检查是否包含某值，参考以下示例代码：
+List<int> values = [1, 2, 3, 4];
+values.contains(1); // true
+values.contains(99); // false
+
+
+可以通过设置Scaffold的背景色来达到设置总体背景色的目的，示例代码如下：
+import 'package:flutter/material.dart';
+void main() => runApp(new MyApp());
+class MyApp extends StatelessWidget {
+  @override
+    Widget build(BuildContext context) {
+
+      return new MaterialApp(
+        title: 'Testing',
+        home: new Scaffold(
+          //这里设置
+          backgroundColor: Colors.white,
+        ),
+      );
+    }
+}
+
+
+flutter中可以通过隐藏状态栏、底部按钮栏的方式达到全屏的效果，示例代码如下：
+// 隐藏底部按钮栏
+SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.top]);
+// 隐藏状态栏
+SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]);
+// 隐藏状态栏和底部按钮栏
+SystemChrome.setEnabledSystemUIOverlays ([]);
+
+
+flutter中如何使用md5加密？
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+String generateMd5(String input) {
+  return md5.convert(utf8.encode(input)).toString();
+}
+
+
+//打开权限设置洁面
+  Future<bool> openAppSetting() async {
+    return await PermissionHandler().openAppSettings();
+  }
+
+
+flutter中如何修改AppBar返回按钮的颜色？
+appBar: AppBar(
+        title: Text('TextField演示'),
+        centerTitle: true,
+//        iconTheme: IconThemeData(
+//          color: Colors.black, //修改颜色
+//        ),
+//        leading: IconButton(
+//          icon: Icon(Icons.arrow_back, color: Colors.black),
+//          onPressed: () => Navigator.of(context).pop(),
+//        ),
+        leading: BackButton(color: Colors.black),
+      ),
+
+
+flutter插件介绍之网络检测插件(connectivity)
+import 'package:connectivity/connectivity.dart';
+var connectivityResult = await (Connectivity().checkConnectivity());
+if (connectivityResult == ConnectivityResult.mobile) {
+  //接入移动网络
+} else if (connectivityResult == ConnectivityResult.wifi) {
+  //接入wifi网络
+}
+
+import 'dart:io';
+...
+try {
+  final result = await InternetAddress.lookup('baidu.com'); //尝试连接baidu
+  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    print('连接成功');
+  }
+} on SocketException catch (_) {
+  print('未连接到互联网');
+}
+
+
+--flutter使用MediaQuery.of(context)报错
+使用MediaQuery类的时候报错：Flutter Error: MediaQuery.of() called with a context that does not contain a MediaQuery。
+其实这个问题很好解释，就是因为你的祖先控件没有包含MediaQuery，所以使用MediaQuery.of(context)报错，可以使用MaterialApp或者WidgetsApp包装你自己组件。
+解决方式参考以下示例代码：
+void main() => runApp(App());
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp( //注意这里
+      title: 'Title',
+      theme: kThemeData,
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Container(
+      child: ...,
+    );
+  }
+}
+
+
+
+使用flutter_webview_plugin插件，有些时候我们需要拦截webview中的链接访问，比如：统计或阻止用户访问外部链接。
+接下来我们看下如何拦截链接的访问，示例代码如下：
+StreamSubscription<WebViewStateChanged> _onStateChanged;
+@override
+void initState() {
+  super.initState();
+  //监听webview状态改变
+  _onStateChanged = plugin.onStateChanged.listen((s) {
+    if (s.type == WebViewState.shouldStart) {//拦截即将展现的页面
+      if (s.url.startsWith("http://")) {
+        plugin.stopLoading();//停止加载
+        print('禁止非https链接访问');
+        return;
+      }
+    }
+  });
+}
+
+
+flutter插件之permission_handler处理手机功能权限
+  permission_handler: ^5.0.1+1
+  import 'package:permission_handler/permission_handler.dart';
+
+  代码示例：
+
+  //检查功能权限
+  Future<bool> checkPermission(PermissionGroup permissionGroup) async {
+    PermissionStatus status = await PermissionHandler().checkPermissionStatus(permissionGroup);
+    return status == PermissionStatus.granted;
+  }
+
+  //检查权限如果没有则申请
+  Future<bool> checkAndRequestPermission(PermissionGroup permissionGroup) async {
+    PermissionStatus status = await PermissionHandler().checkPermissionStatus(permissionGroup);
+    if (status != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> map = await PermissionHandler().requestPermissions([permissionGroup]);
+      PermissionStatus status = map[permissionGroup];
+      if (status != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  //打开权限设置洁面
+  Future<bool> openAppSetting() async {
+    return await PermissionHandler().openAppSettings();
+  }
+
+
+  权限相关代码：
+
+  /// Defines the state of a permission group
+  class PermissionStatus {
+    const PermissionStatus._(this.value);
+
+    final int value;
+
+    /// Permission to access the requested feature is denied by the user.
+    static const PermissionStatus denied = PermissionStatus._(0);
+
+    /// The feature is disabled (or not available) on the device.
+    static const PermissionStatus disabled = PermissionStatus._(1);
+
+    /// Permission to access the requested feature is granted by the user.
+    static const PermissionStatus granted = PermissionStatus._(2);
+
+    /// Permission to access the requested feature is denied by the OS (only on iOS).
+    /// The user cannot change this app's status, possibly due to active restrictions such as
+    /// parental controls being in place.
+    static const PermissionStatus restricted = PermissionStatus._(3);
+
+    /// Permission is in an unknown state
+    static const PermissionStatus unknown = PermissionStatus._(4);
+
+    static const List<PermissionStatus> values = <PermissionStatus>[
+      denied,
+      disabled,
+      granted,
+      restricted,
+      unknown,
+    ];
+
+    static const List<String> _names = <String>[
+      'denied',
+      'disabled',
+      'granted',
+      'restricted',
+      'unknown',
+    ];
+
+    @override
+    String toString() => 'PermissionStatus.${_names[value]}';
+  }
+
+  /// Defines the state of a service related to the permission group
+  class ServiceStatus {
+    const ServiceStatus._(this.value);
+
+    final int value;
+
+    /// The service for the supplied permission group is disabled.
+    static const ServiceStatus disabled = ServiceStatus._(0);
+
+    /// The service for the supplied permission group is enabled.
+    static const ServiceStatus enabled = ServiceStatus._(1);
+
+    /// There is no service for the supplied permission group.
+    static const ServiceStatus notApplicable = ServiceStatus._(2);
+
+    /// The unknown service status indicates the state of the service could not be determined.
+    static const ServiceStatus unknown = ServiceStatus._(3);
+
+    static const List<ServiceStatus> values = <ServiceStatus>[
+      disabled,
+      enabled,
+      notApplicable,
+      unknown,
+    ];
+
+    static const List<String> _names = <String>[
+      'disabled',
+      'enabled',
+      'notApplicable',
+      'unknown',
+    ];
+
+    @override
+    String toString() => 'ServiceStatus.${_names[value]}';
+  }
+
+  /// Defines the permission groups for which permissions can be checked or requested.
+  class PermissionGroup {
+    const PermissionGroup._(this.value);
+
+    final int value;
+
+    /// Android: Calendar
+    /// iOS: Calendar (Events)
+    static const PermissionGroup calendar = PermissionGroup._(0);
+
+    /// Android: Camera
+    /// iOS: Photos (Camera Roll and Camera)
+    static const PermissionGroup camera = PermissionGroup._(1);
+
+    /// Android: Contacts
+    /// iOS: AddressBook
+    static const PermissionGroup contacts = PermissionGroup._(2);
+
+    /// Android: Fine and Coarse Location
+    /// iOS: CoreLocation (Always and WhenInUse)
+    static const PermissionGroup location = PermissionGroup._(3);
+
+    /// Android:
+    ///   When running on Android < Q: Fine and Coarse Location
+    ///   When running on Android Q and above: Background Location Permission
+    /// iOS: CoreLocation - Always
+    static const PermissionGroup locationAlways = PermissionGroup._(4);
+
+    /// Android: Fine and Coarse Location
+    /// iOS: CoreLocation - WhenInUse
+    static const PermissionGroup locationWhenInUse = PermissionGroup._(5);
+
+    /// Android: None
+    /// iOS: MPMediaLibrary
+    static const PermissionGroup mediaLibrary = PermissionGroup._(6);
+
+    /// Android: Microphone
+    /// iOS: Microphone
+    static const PermissionGroup microphone = PermissionGroup._(7);
+
+    /// Android: Phone
+    /// iOS: Nothing
+    static const PermissionGroup phone = PermissionGroup._(8);
+
+    /// Android: Nothing
+    /// iOS: Photos
+    static const PermissionGroup photos = PermissionGroup._(9);
+
+    /// Android: Nothing
+    /// iOS: Reminders
+    static const PermissionGroup reminders = PermissionGroup._(10);
+
+    /// Android: Body Sensors
+    /// iOS: CoreMotion
+    static const PermissionGroup sensors = PermissionGroup._(11);
+
+    /// Android: Sms
+    /// iOS: Nothing
+    static const PermissionGroup sms = PermissionGroup._(12);
+
+    /// Android: Microphone
+    /// iOS: Speech
+    static const PermissionGroup speech = PermissionGroup._(13);
+
+    /// Android: External Storage
+    /// iOS: Access to folders like `Documents` or `Downloads`. Implicitly granted.
+    static const PermissionGroup storage = PermissionGroup._(14);
+
+    /// Android: Ignore Battery Optimizations
+    static const PermissionGroup ignoreBatteryOptimizations =
+        PermissionGroup._(15);
+
+    /// Android: Notification
+    /// iOS: Notification
+    static const PermissionGroup notification = PermissionGroup._(16);
+
+    /// Android: Allows an application to access any geographic locations persisted in the user's shared collection.
+    static const PermissionGroup access_media_location = PermissionGroup._(17);
+
+    /// The unknown permission only used for return type, never requested
+    static const PermissionGroup unknown = PermissionGroup._(18);
+
+    static const List<PermissionGroup> values = <PermissionGroup>[
+      calendar,
+      camera,
+      contacts,
+      location,
+      locationAlways,
+      locationWhenInUse,
+      mediaLibrary,
+      microphone,
+      phone,
+      photos,
+      reminders,
+      sensors,
+      sms,
+      speech,
+      storage,
+      ignoreBatteryOptimizations,
+      notification,
+      access_media_location,
+      unknown,
+    ];
+
+    static const List<String> _names = <String>[
+      'calendar',
+      'camera',
+      'contacts',
+      'location',
+      'locationAlways',
+      'locationWhenInUse',
+      'mediaLibrary',
+      'microphone',
+      'phone',
+      'photos',
+      'reminders',
+      'sensors',
+      'sms',
+      'speech',
+      'storage',
+      'ignoreBatteryOptimizations',
+      'notification',
+      'access_media_location',
+      'unknown',
+    ];
+
+    @override
+    String toString() => 'PermissionGroup.${_names[value]}';
+  }
